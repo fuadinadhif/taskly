@@ -1,5 +1,5 @@
 import { Alert, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { theme } from "../theme";
+import { theme } from "../constants/theme";
 import AntDesign from "@expo/vector-icons/AntDesign";
 
 interface Props {

@@ -1,8 +1,9 @@
 import { StyleSheet, View } from "react-native";
-import { theme } from "./theme";
-import { ShoppingListItem } from "./components/shopping-list-item";
+import { ShoppingListItem } from "../../components/shopping-list-item";
 
-export default function App() {
+import { theme } from "../../constants/theme";
+
+export default function Index() {
   return (
     <View style={styles.container}>
       <ShoppingListItem name="Green Tea" />
