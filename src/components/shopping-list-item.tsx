@@ -1,13 +1,28 @@
-import { Alert, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import {
+  Alert,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  Pressable,
+  View,
+} from "react-native";
 import { theme } from "../constants/theme";
 import AntDesign from "@expo/vector-icons/AntDesign";
+import Feather from "@expo/vector-icons/Feather";
 
 interface Props {
   name: string;
-  isCompleted?: boolean;
+  isCompleted?: Date;
+  onDelete: () => void;
+  onPress: () => void;
 }
 
-export function ShoppingListItem({ name, isCompleted }: Props) {
+export function ShoppingListItem({
+  name,
+  isCompleted,
+  onDelete,
+  onPress,
+}: Props) {
   function handleDelete() {
     Alert.alert(
       `Are you sure you want to delete ${name.toLowerCase()}?`,
@@ -15,7 +30,7 @@ export function ShoppingListItem({ name, isCompleted }: Props) {
       [
         {
           text: "Yes",
-          onPress: () => console.log("Ok, deleting"),
+          onPress: () => onDelete(),
           style: "destructive",
         },
         {
@@ -25,18 +40,27 @@ export function ShoppingListItem({ name, isCompleted }: Props) {
       ],
     );
   }
+
   return (
-    <View
+    <Pressable
       style={[
         styles.itemContainer,
         isCompleted ? styles.completedContainer : undefined,
       ]}
+      onPress={onPress}
     >
-      <Text
-        style={[styles.text, isCompleted ? styles.completedText : undefined]}
-      >
-        {name}
-      </Text>
+      <View style={styles.textContainer}>
+        <Feather
+          name={isCompleted ? "check-circle" : "circle"}
+          size={24}
+          color={isCompleted ? theme.colors.grey : theme.colors.cerulean}
+        />
+        <Text
+          style={[styles.text, isCompleted ? styles.completedText : undefined]}
+        >
+          {name}
+        </Text>
+      </View>
       <TouchableOpacity onPress={handleDelete} activeOpacity={0.8}>
         <AntDesign
           name="closecircle"
@@ -44,7 +68,7 @@ export function ShoppingListItem({ name, isCompleted }: Props) {
           color={isCompleted ? theme.colors.grey : theme.colors.red}
         />
       </TouchableOpacity>
-    </View>
+    </Pressable>
   );
 }
 
@@ -57,6 +81,10 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
+  },
+  textContainer: {
+    flexDirection: "row",
+    gap: 12,
   },
   completedContainer: {
     backgroundColor: theme.colors.lightGrey,
